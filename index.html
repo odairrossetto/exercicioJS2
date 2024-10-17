@@ -42,27 +42,48 @@
 					
 					<div class="row">
 						<div class="col-md-12">
-							<h2 id="balance">Saldo: R$ 1000,00</h2> <!-- Valor do saldo -->
+							<h2 >Saldo:</h2>
+							<div id="saldo" class="mb-3 mt-3 text-primary"></div>
+
+							<h2 >Preço Médio:</h2>
+							<div id="prMedio" class="mb-3 mt-3 text-primary"></div>
 						</div>
 					</div>
 					<div class="row mt-3">
 						<div class="col-md-12">
-							<input type="number" id="amount" class="form-control" placeholder="Valor para compra ou venda"> <!-- Campo de texto -->
+							<input type="number" id="quantidade" class="form-control" placeholder="Valor para compra ou venda">
 						</div>
 					</div>
 					<div class="row mt-3">
 						<div class="col-md-6">
-							<button class="btn btn-success btn-block" onclick="buy()">Comprar</button> <!-- Botão Comprar -->
+							<button class="btn btn-success btn-block" id="comprar">Comprar</button>
 						</div>
 						<div class="col-md-6">
-							<button class="btn btn-danger btn-block" onclick="sell()">Vender</button> <!-- Botão Vender -->
+							<button class="btn btn-danger btn-block" id="vender">Vender</button>
 						</div>
 					</div>
 
 				</div>
 
 				<div class="col-md-6">
-					<div class="p-3 bg-light border">Div 2</div>
+					<div class="p-3 bg-light border">
+					
+						<table class="table table-striped">
+							<thead>
+								<tr>
+
+									<td>Cotação</td>
+									<td>Quantidade</td>
+									<td>Data Compra</td>
+									
+								</tr>
+							</thead>
+							<tbody id="tabela">
+
+							</tbody>
+						</table>
+					
+					</div>
 				</div>
 
 			</div>
