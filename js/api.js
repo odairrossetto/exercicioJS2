@@ -160,41 +160,43 @@ document.getElementById("comprar").addEventListener("click", function () {
 
 document.getElementById("vender").addEventListener("click", function () {
 
+	let menorObjeto;
+
 	let url = "http://localhost:3001/carteira";
 
+	// encontra a compra de menor cotação
 	fetch(url)
 		.then(response => response.json())
 		.then(saida => {
 			let tbody = document.getElementById("tabela");
 			tbody.innerHTML = "";
 
-			const menorObjeto = saida.reduce((menor, atual) => {
+			menorObjeto = saida.reduce((menor, atual) => {
 				return atual.cotacao < menor.cotacao ? atual : menor;
 			});
 
-			console.log(menorObjeto);
+			// apaga a compra
+			url = `http://localhost:3001/contatos/${menorObjeto.id}`
 
+			fetch(url, {
+				method: 'DELETE',
+				headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				}
+			})
+			.then(res => res.json())
+			.then(x => {
+
+				calculaPrecoMedio();
+				atualizaSaldo(quantidade);
+				listarAtivos();
+
+				window.alert('Ordem de Venda realizada com sucesso');
+			})
+			.catch(e => window.alert(e))
+			
 		});
-
-	// const params = new URLSearchParams(window.location.search);
-	// const id = params.get("id");
-
-	// let url = `http://localhost:3001/contatos/${id}`
-
-	// fetch(url, {
-	// 	method: 'DELETE',
-	// 	headers: {
-	// 		"Content-Type": "application/json",
-	// 		"Accept": "application/json"
-	// 	}
-	// })
-	// .then(res => res.json())
-	// .then(x => {
-	// 	window.alert('Contato REMOVIDO com sucesso');
-	// 	window.location.href = '/contatos.html';
-	// })
-	// .catch(e => window.alert(e))
-
 });
 
 
