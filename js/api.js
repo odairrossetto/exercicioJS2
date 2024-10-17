@@ -86,11 +86,16 @@ function listarAtivos() {
 		});
 }
 
-function atualizaSaldo(quantidade) {
+function atualizaSaldo(tipo, quantidade) {
 
 	let saldo = document.getElementById("saldo");
 
-	valSaldo -= quantidade;
+	if (tipo == "compra") {
+		valSaldo -= quantidade;
+	} else {
+		valSaldo += quantidade;
+	}
+
 	saldo.innerHTML = valSaldo;
 
 }
@@ -150,7 +155,7 @@ document.getElementById("comprar").addEventListener("click", function () {
 		.then(x => {
 
 			calculaPrecoMedio();
-			atualizaSaldo(quantidade);
+			atualizaSaldo("compra", parseFloat(quantidade) * parseFloat(valCotacao));
 			listarAtivos();
 
 			window.alert('Compra realizada com sucesso!');
@@ -176,7 +181,7 @@ document.getElementById("vender").addEventListener("click", function () {
 			});
 
 			// apaga a compra
-			url = `http://localhost:3001/contatos/${menorObjeto.id}`
+			url = `http://localhost:3001/carteira/${menorObjeto.id}`
 
 			fetch(url, {
 				method: 'DELETE',
@@ -189,7 +194,7 @@ document.getElementById("vender").addEventListener("click", function () {
 			.then(x => {
 
 				calculaPrecoMedio();
-				atualizaSaldo(quantidade);
+				atualizaSaldo("venda", parseFloat(menorObjeto.quantidade) * parseFloat(valCotacao));
 				listarAtivos();
 
 				window.alert('Ordem de Venda realizada com sucesso');
@@ -200,15 +205,14 @@ document.getElementById("vender").addEventListener("click", function () {
 });
 
 
-
-// inicializa o preço médio
-calculaPrecoMedio()
-
-// iniciaSaldo
-atualizaSaldo(0)
-
 // lista cartera
 listarAtivos();
+
+// inicializa o preço médio
+calculaPrecoMedio();
+
+// iniciaSaldo
+atualizaSaldo("", 0);
 
 // atualiza preço do DodgeCoin
 displayPrice();
