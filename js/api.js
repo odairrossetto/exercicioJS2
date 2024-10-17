@@ -152,7 +152,7 @@ document.getElementById("comprar").addEventListener("click", function () {
 			calculaPrecoMedio();
 			atualizaSaldo(quantidade);
 			listarAtivos();
-			
+
 			window.alert('Compra realizada com sucesso!');
 		})
 		.catch(e => window.alert(e))
@@ -160,24 +160,40 @@ document.getElementById("comprar").addEventListener("click", function () {
 
 document.getElementById("vender").addEventListener("click", function () {
 
-	const params = new URLSearchParams(window.location.search);
-	const id = params.get("id");
+	let url = "http://localhost:3001/carteira";
 
-	let url = `http://localhost:3001/contatos/${id}`
+	fetch(url)
+		.then(response => response.json())
+		.then(saida => {
+			let tbody = document.getElementById("tabela");
+			tbody.innerHTML = "";
 
-	fetch(url, {
-		method: 'DELETE',
-		headers: {
-			"Content-Type": "application/json",
-			"Accept": "application/json"
-		}
-	})
-	.then(res => res.json())
-	.then(x => {
-		window.alert('Contato REMOVIDO com sucesso');
-		window.location.href = '/contatos.html';
-	})
-	.catch(e => window.alert(e))
+			const menorObjeto = saida.reduce((menor, atual) => {
+				return atual.cotacao < menor.cotacao ? atual : menor;
+			});
+
+			console.log(menorObjeto);
+
+		});
+
+	// const params = new URLSearchParams(window.location.search);
+	// const id = params.get("id");
+
+	// let url = `http://localhost:3001/contatos/${id}`
+
+	// fetch(url, {
+	// 	method: 'DELETE',
+	// 	headers: {
+	// 		"Content-Type": "application/json",
+	// 		"Accept": "application/json"
+	// 	}
+	// })
+	// .then(res => res.json())
+	// .then(x => {
+	// 	window.alert('Contato REMOVIDO com sucesso');
+	// 	window.location.href = '/contatos.html';
+	// })
+	// .catch(e => window.alert(e))
 
 });
 
